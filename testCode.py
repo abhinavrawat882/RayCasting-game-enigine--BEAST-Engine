@@ -59,6 +59,7 @@ mp=[[1,1., 1., 1., 1., 1., 1., 1., 1., 1, 1., 1., 1., 1, 1.,1],    #DEFAULT MAP
 
 
 ########################################################################################
+                        #MAP UPSCALER CODE
 ######################################################################################## 
 ##map upscler code
 
@@ -110,3 +111,19 @@ while True:
     mmi+=1
 ########################################################################################
 ######################################################################################## 
+
+
+########################################################################################
+                                #1. GAME METHODS
+########################################################################################
+
+##Draws the player and the direction stick ahead of the player 
+def DrawPlayer(posi,posy,mapar):#gets player position in x and y cordinates in the frame matrix
+    for i in range(posi-playerSize,posi+playerSize+1):
+        for y in range(posy-playerSize,posy+playerSize+1):
+            mapar[i][y]=1            
+##Removes remains of the player and the direction stick of the player 
+def RemPlayer(posi,posy,mapar):#gets player position in x and y cordinates in the frame matrix
+    for i in range(posi-playerSize,posi+playerSize+1):
+        for y in range(posy-playerSize,posy+playerSize+1):
+            mapar[i][y]=0
