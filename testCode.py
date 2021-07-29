@@ -126,4 +126,17 @@ def DrawPlayer(posi,posy,mapar):#gets player position in x and y cordinates in t
 def RemPlayer(posi,posy,mapar):#gets player position in x and y cordinates in the frame matrix
     for i in range(posi-playerSize,posi+playerSize+1):
         for y in range(posy-playerSize,posy+playerSize+1):
-            mapar[i][y]=0
+            mapar[i][y]=0    
+            
+            
+###########################
+#  Player motion Handeler 
+###########################
+
+    ## this moves the player stratigically int the map 
+    ## What this function does .
+    ## Calculation of new location of the player 
+    ## Collision detection.
+    ## the movement should be acording to where the player is looking
+            
+            
