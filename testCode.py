@@ -138,5 +138,18 @@ def RemPlayer(posi,posy,mapar):#gets player position in x and y cordinates in th
     ## Calculation of new location of the player 
     ## Collision detection.
     ## the movement should be acording to where the player is looking
-            
+def MovPlayer(posi,posy,pva,mapar,direction,dis,        na):  ## this is work in progress.  (Changes to the line(pva,dis,na))
+                                               #,#new angle(add it to current player angle)
+    RemPlayer(posi,posy,mapar)
+    if(direction=='w'):
+        posi-=(StepSize*dis)
+    elif(direction=='s'):
+        posi+=(StepSize*dis)
+    elif(direction=='d'):
+        posy+=(StepSize*dis)
+    elif(direction=='a'):
+        posy-=(StepSize*dis)
+    DrawPlayer(posi,posy,mapar)
+    return(posi,posy)
+
             
