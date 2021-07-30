@@ -151,5 +151,30 @@ def MovPlayer(posi,posy,pva,mapar,direction,dis,        na):  ## this is work in
         posy-=(StepSize*dis)
     DrawPlayer(posi,posy,mapar)
     return(posi,posy)
+  
+      
+##########################################
+
+#MAIN GAME LOOP INITIALIZATION
+
+##########################################
+
+
+while True:
+    plt.imshow(miniMap)
+    plt.show()
+    #cv2.imshow('Doom', miniMap)
+    print("Dir dis ang")
+    
+    #make a try catch block here
+    
+    direction,dis,ang=input().split()
+    if direction=="exit":
+        break
+    dis=int(dis)
+    ang=int(ang)
+    ppx,ppy,lar,pva=MovPlayer(ppx,ppy,pva,miniMap,direction,dis,ang,lar)
+    print(ppx)
+    print(ppy)
 
             
