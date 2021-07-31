@@ -127,8 +127,138 @@ def RemPlayer(posi,posy,mapar):#gets player position in x and y cordinates in th
     for i in range(posi-playerSize,posi+playerSize+1):
         for y in range(posy-playerSize,posy+playerSize+1):
             mapar[i][y]=0    
+######################################  
+    # LINE FUNCTIONS    #
+######################################
+
+def drawLine(thickness,lar,mapvr):
+    thickness=int(thickness/2)
+    for i in lar:
+        for x in range(i[0]-thickness,i[0]+thickness+1):
+            for y in range(i[1]-thickness,i[1]+thickness+1):
+                mapvr[x][y]=1
+    
+def remLine(thickness,lar,mapvr):
+    thickness=int(thickness/2)
+    for i in lar:
+        for x in range(i[0]-thickness,i[0]+thickness+1):
+            for y in range(i[1]-thickness,i[1]+thickness+1):
+                mapvr[x][y]=0
+                
+def isWall(MpInfo,x,y):
+    if(mpInfo[x][y]>=1):
+        return(True)
+    return(False)
+    
+def lineTracer(posi,posy,dist,pva):
+    lineAr=[] # will keep track of all the points of the line 
+    
+    if(dist==0):
+        dist=80
+    
+
+    if(pva==0 or pva==360):
+        pva+=0.3
+    elif(pva==270 or pva==90):
+        pva+=0.3
+       
+    disy = abs(1/math.tan(rd*pva))
+    disx = abs(math.tan(rd*pva))
+    print(disy,disx)
+    flg=0
+    xadder=0
+    yadder=0
+    multiplierxa=-1
+    multiplierya=1
+    if(pva>90 and pva<=180):
+        multiplierya=-1
+    elif(pva>180 and pva<=270):
+        multiplierxa=1
+        multiplierya=-1
+    elif(pva>270 and pva<=360):
+        multiplierxa=1
+        multiplierya=1
+    
+    #################################################
+    #Cases to look at
+    #1. x>y
+    #2. Y<x
+    #3  y==x
+    #################################################
+    #if x is greater than y 
+    lineAr.append([posi,posy])
+    if(disy>disx):
+        
+        
+        print("y is bigger")
+         
+        y=disy #so this for every increase in y there will be y no of x increase 
+        #initial y 
+        prev_y=0
+        
+        
+        
+        
+        
+        noOfSteps=0
+        while True:
+            prev_y=y
+            y+=disy
             
             
+            for x_lp in range(1,(int(y)-int(prev_y))+1):
+                yadder+=(1*multiplierya)
+                
+                lineAr.append([posi+xadder,posy+yadder])
+                
+                noOfSteps+=1
+                if(noOfSteps==dist):
+                    flg=1
+                    break
+            
+            xadder+=(1*multiplierxa)
+            lineAr.append([posi+xadder,posy+yadder])
+            noOfSteps+=1
+            if(noOfSteps==dist or flg==1):
+                break
+                
+                
+                
+    elif(disx>disy):
+        print("x is bigger")
+        x=disx #so this for every increase in y there will be y no of x increase 
+        #initial y 
+        prev_x=0
+        
+        
+        noOfSteps=0
+        while True:
+            prev_x=x
+            x+=disx
+            for x_lp in range(1,(int(x)-int(prev_x))+1):
+                xadder+=(1*multiplierxa)
+                lineAr.append([posi+xadder,posy+yadder])
+                noOfSteps+=1
+                if(noOfSteps==dist):
+                    flg=1
+                    break
+            yadder+=(1*multiplierya)
+            lineAr.append([posi+xadder,posy+yadder])
+            noOfSteps+=1
+            if(noOfSteps==dist or flg==1):
+                break
+    else: ##When both x and y are equal or andle is multiple of 45 something
+        print("they are same")
+        noOfSteps=0
+        while True:
+            step+=1
+            xadder+=(1*multiplierxa)
+            yadder+=(1*multiplierya)
+            lineAr.append([posi+xadder,posy+yadder])
+            if(noOfSteps==dist):
+                break
+    print("Ar",lineAr)
+    return(lineAr)
 ###########################
 #  Player motion Handeler 
 ###########################
