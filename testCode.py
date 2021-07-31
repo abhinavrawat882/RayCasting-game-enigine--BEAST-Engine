@@ -160,6 +160,18 @@ def MovPlayer(posi,posy,pva,mapar,direction,dis,        na):  ## this is work in
 ##########################################
 
 
+
+
+ppx=int(ppx*map_Y_Miltiplier)
+ppy=int(ppy*map_Y_Miltiplier)
+pva=0
+lar=[[ppx,ppy]]
+print(ppx)
+print(ppy)
+print
+DrawPlayer(ppx,ppy,miniMap)
+
+
 while True:
     plt.imshow(miniMap)
     plt.show()
