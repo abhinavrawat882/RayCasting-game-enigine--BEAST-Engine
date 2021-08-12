@@ -282,6 +282,76 @@ def MovPlayer(posi,posy,pva,mapar,direction,dis,        na):  ## this is work in
     DrawPlayer(posi,posy,mapar)
     return(posi,posy)
   
+##########################################
+
+#3D Renderer
+
+##########################################
+
+  def threDRenderer(posi,posy,pva,frame):
+    
+    RayDiff=fov/GameResolution[1]
+    
+    initialColm=0
+    
+    colLen=1
+    
+    
+    
+    #print(colLen)
+    #####################################
+    
+    ######################################
+    
+    nextCol=initialColm+colLen
+    a=pva+fov/2
+    while(a>pva-fov/2):
+    
+        
+        lar=lineTracer(posi,posy,0,a,1)
+        #(posi,posy,dist,pva,Wmode)
+        p=((posi-lar[-1][0])**2 + (posy-lar[-1][1])**2)**0.5 ##Finding distance to that intercection
+        #print("P: ",p)
+    #####################################
+        if p==0:
+            
+            wallHeight=0
+            
+        else:
+            
+            wallHeight=int((GameResolution[0])/(p/30))
+            
+        #print("wallHeight",wallHeight)
+    #####################################    
+        ofset=(GameResolution[0]/2)
+        rngi=ofset-wallHeight/2
+        rngy=ofset+wallHeight/2
+        #print("rngi",rngi)
+    #####################################  
+        #print("rngy",rngy)
+    #####################################  
+        for i in range(int(initialColm),int(nextCol)):
+            for y in range(0,GameResolution[0]):
+                if(y>=rngi and y<=rngy):
+                    if(lar[-1][2][2]=='x'):
+                        frame[y][i][0]=10
+                    else:
+                        
+                        frame[y][i][1]=10
+         
+                elif(y<rngi):
+                    
+                    frame[y][i][2]=16
+                    
+                
+                    
+        initialColm=nextCol
+        nextCol+=colLen
+        if(nextCol>GameResolution[1]):
+            break
+        a+=RayDiff*(-1)    
+    return(frame)
+
       
 ##########################################
 
