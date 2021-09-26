@@ -1,10 +1,12 @@
+import time
 import math
 def lineTracer(y,x,lineAngle,Levelmap):##3.0
     
-    
+    currentItercept=""
     lineLen=0
     #length of line is stored in this variable
-    
+   
+
     ##first thing find slope of the line
     m=math.tan(lineAngle*rd)
 
@@ -19,21 +21,20 @@ def lineTracer(y,x,lineAngle,Levelmap):##3.0
     
     
     ## now lets find out the direction for the line ...
-    muly=1
+    muly=-1
     mulx=1
-    if (lineAngle<180 and lineAngle>90):
-        
+
+    if(lineAngle>270 or lineAngle<90):
+        mulx=1
+    else:
         mulx=-1
-    elif (lineAngle>180 and lineAngle<270):
-        mulx=-1
+    
+    if(lineAngle<180 and lineAngle>0):
         muly=-1
-    elif (lineAngle<360 and lineAngle>270):
-        muly=-1
-    
-    
-    
-    
-    
+    else:
+        muly=1
+    #print("mulx:",mulx)
+    #print("muly:",muly)
     # therefore  lets get length of x and y ... that will be added rto get final quardinates 
     
     ylen=0
@@ -44,60 +45,66 @@ def lineTracer(y,x,lineAngle,Levelmap):##3.0
     dely=1
     delx=1
 
-    ### If angle of line is in range 90 and 0 
     
-    if lineAngle>0 and lineAngle<90:
-        
-        dely=y-int(y)
+    
+    if(lineAngle>270 or lineAngle<90):
         delx=1-(x-int(x))
-    
-    ### If angle of line is in range 90 an
-    if lineAngle>90 and lineAngle<180:
-        dely=y-int(y)
+    else:
         delx=(x-int(x))
     
-
-
-    ### If angle of line is in range 180 and 270  
-    if lineAngle>180 and lineAngle<270:
+    if(lineAngle<180 and lineAngle>0):
+        dely=y-int(y)
+    else:
         dely=1-(y-int(y))
-        delx=(x-int(x))
-
-    ### If angle of line is in range 270 and 360 
-    if lineAngle>270 and lineAngle<360:
-        dely=1-(y-int(y))
-        delx=1-(x-int(x))
-    print(dely,delx)
-        
+  
+   
+    
     # now calculating the first intersepts
     lx=Sx*delx
     ly=Sy*dely
-    
+    tmpdelx=x
+    tmpdely=y
     if(lx<ly):
         lineLen=lx
         leny=ly-lx
         lenx=0
+        currentItercept="x"
+        tmpdelx+=(mulx*delx)
     else:
         lineLen=ly
         lenx=lx-ly
         leny=0
-    print("SX",Sx)
-    print("SY",Sy)
-    print("DX",delx)
-    print("DY",dely)
-    print("LX",lx)
-    print("LY",ly)
-    print("lineLen",lineLen)
-    tmpdelx=x+(mulx*delx)
-    tmpdely=y+(muly*dely)
-    if x==-1:
-        tmpdelx-=1
-    if y==-1:
-        tmpdely-=1
-    if(Levelmap[int(tmpdely)][int(tmpdelx)]!=0):
-        return(lineLen)
+        currentItercept="y"
+        tmpdely+=(muly*dely)
         
     
+    #print("SX",Sx)
+    #print("SY",Sy)
+    #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    #print("DX",delx)
+    #print("DY",dely)
+    #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    #print("LX",lx)
+    #print("LY",ly)
+    #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    #print("lineLen",lineLen)
+    #print("currentItercept",currentItercept)
+    
+    
+    
+    
+    ctmpdelx=tmpdelx
+    ctmpdely=tmpdely
+    
+    if muly==-1 and currentItercept=="y":
+        ctmpdely=tmpdely-1
+    #print(ctmpdely)
+    #print(ctmpdelx)
+    #print(Levelmap[int(ctmpdely)][int(ctmpdelx)])
+    if(Levelmap[int(ctmpdely)][int(ctmpdelx)]!=0):
+        return(lineLen)
+        
+    #print("#############################################")
     while True: ##main loop
         ##lenfor eaxh axis
         
@@ -112,30 +119,33 @@ def lineTracer(y,x,lineAngle,Levelmap):##3.0
             lineLen+=lenx
             lenx=0
             delx+=1
-            tmpdelx+=1
-            
+            tmpdelx+=(mulx*1)
+            currentItercept="x"
         else:
             lenx-=leny
             lineLen+=leny
             leny=0
             dely+=1
-            tmpdely+=1
+            tmpdely+=(muly*1)
+            currentItercept="y"
         ### Checking if a wall or any thing is found in the locaiton reached
         
         #print("SX",Sx)
         #print("SY",Sy)
-        print("DX",delx)
-        print("DY",dely)
-        print("LX",lx)
-        print("LY",ly)
-        print("lineLen",lineLen)
-        
-        if x==-1:
-            tmpdelx-=1
-        if y==-1:
-            tmpdely-=1
-        print(tmpdely,tmpdelx)
-        print(Levelmap[int(tmpdely)][int(tmpdelx)])
-        if(Levelmap[int(tmpdely)][int(tmpdelx)]!=0):
+        #print("DX",delx)
+        #print("DY",dely)
+        #print("LX",lx)
+        #print("LY",ly)
+        #print("lineLen",lineLen)
+        ctmpdelx=tmpdelx
+        ctmpdely=tmpdely
+
+        if muly==-1 and currentItercept=="y":
+            ctmpdely=tmpdely-1
+        #print(ctmpdely,ctmpdelx)
+        #print(Levelmap[int(ctmpdely)][int(ctmpdelx)])
+        if(Levelmap[int(ctmpdely)][int(ctmpdelx)]!=0):
             break
-    return(lineLen)
+        #print("#############################################")
+    return(lineLen,currentItercept)
+            
